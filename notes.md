@@ -58,3 +58,11 @@ html, body {
 
 @import url('./sign-up.css');
 ```
+
+
+## using POST body:
+
+```js
+// in index.js / server.js
+app.use(express.urlencoded({ extended: false }));
+```

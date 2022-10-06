@@ -12,6 +12,7 @@ mongoose.connect(process.env.DB_URI, (err) => {
 
 const app = express();
 
+app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'stylesheets')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');

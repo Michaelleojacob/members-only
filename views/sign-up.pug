@@ -3,8 +3,9 @@ extends layout
 block content
   form(action="" method='post' class='sign-up-form')
     label(for="username") username
-    input(type="text" name='username')
+    input(type="text" class='sign-up-inputs' name='username')
     label(for="password") password
-    input(type="text" name='password')
+    input(type="text" class='sign-up-inputs' name='password')
     label(for="confirm-pass") confirm password
-    input(type='text' name='confirm-pass')
+    input(type='text' class='sign-up-inputs' name='confirm-pass')
+    button(type="submit") sign up
