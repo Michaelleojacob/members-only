@@ -12,11 +12,14 @@ mongoose.connect(process.env.DB_URI, (err) => {
 
 const app = express();
 
+app.use(express.static(path.join(__dirname, 'stylesheets')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 const homepageRouter = require('./routes/homepage.js');
+const signupRouter = require('./routes/sign-up');
 app.use('/', homepageRouter);
+app.use('/sign-up', signupRouter);
 
 const server = app.listen(process.env.PORT || 3000, () => {
   console.log(server.address().address);
