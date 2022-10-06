@@ -17,9 +17,7 @@ signupRouter.post('/', validateSignUp, (req, res, next) => {
       errors: errors.array(),
     });
   }
-
   res.redirect('/sign-up');
-  // res.render('sign-in');
 });
 
 module.exports = signupRouter;
