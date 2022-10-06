@@ -27,3 +27,34 @@ We call it like so.
 Since we are doing `app.use(./stylesheets)` we can href `./index.css`
 instead of href `../stylesheets/index.css`
 in our layout.pug
+
+
+## @import url() in css has to be at the top of the file
+
+this works:
+```css
+@import url('./sign-up.css');
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+```
+
+this does NOT work:
+```css
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+@import url('./sign-up.css');
+```
