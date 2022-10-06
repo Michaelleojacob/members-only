@@ -3,11 +3,11 @@ extends layout
 block content
   form(action="" method='post' class='sign-up-form')
     label(for="username") username
-    input(type="text" class='sign-up-inputs' name='username')
+    input(type="text" class='sign-up-inputs' name='username' value=username === undefined ? '' : username)
     label(for="password") password
-    input(type="text" class='sign-up-inputs' name='password')
+    input(type="password" class='sign-up-inputs' name='password' value=password === undefined ? '' : password)
     label(for="confirm-pass") confirm password
-    input(type='text' class='sign-up-inputs' name='repassword')
+    input(type='password' class='sign-up-inputs' name='repassword' value=repassword === undefined ? '' : repassword)
     button(type="submit") sign up
 
   if errors

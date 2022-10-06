@@ -9,9 +9,15 @@ signupRouter.get('/', (req, res, next) => {
 
 signupRouter.post('/', validateSignUp, (req, res, next) => {
   const errors = validationResult(req);
-  if (errors) {
-    return res.render('sign-up', { errors: errors.array() });
+  if (!errors.isEmpty()) {
+    return res.render('sign-up', {
+      username: req.body.username,
+      password: req.body.password,
+      repassword: req.body.password,
+      errors: errors.array(),
+    });
   }
+
   res.redirect('/sign-up');
   // res.render('sign-in');
 });
