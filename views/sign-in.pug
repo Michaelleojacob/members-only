@@ -2,8 +2,9 @@ extends layout
 
 
 block content
-  form(action="/sign-in" method='put' class='sign-in-form')
+  form(action="" method='post' class='sign-in-form')
     label(for="username") username
     input(type="text" name='username')
     label(for="password") password
-    input(type="text" name='password')
+    input(type="password" name='password')
+    button(type='submit') log in

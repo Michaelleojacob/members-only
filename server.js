@@ -18,9 +18,12 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 const homepageRouter = require('./routes/homepage.js');
-const signupRouter = require('./routes/sign-up');
+const signupRouter = require('./routes/sign-up.js');
+const signinRouter = require('./routes/sign-in.js');
+
 app.use('/', homepageRouter);
 app.use('/sign-up', signupRouter);
+app.use('/sign-in', signinRouter);
 
 const server = app.listen(process.env.PORT || 3000, () => {
   console.log(server.address().address);
