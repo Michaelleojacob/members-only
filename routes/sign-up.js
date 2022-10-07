@@ -26,6 +26,7 @@ signupRouter.post('/', validateSignUp, async (req, res, next) => {
     const user = new User({
       username: req.body.username,
       password: hash,
+      roles: ['basic'],
     }).save((err) => {
       if (err) {
         return next(err);
