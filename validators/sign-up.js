@@ -1,4 +1,5 @@
 const { body, check, validationResult } = require('express-validator');
+const User = require('../models/users');
 
 exports.validateSignUp = [
   check('username')
@@ -10,6 +11,16 @@ exports.validateSignUp = [
     .bail()
     .isLength({ min: 1, max: 16 })
     .withMessage('Minimum 3 characters required!')
+    .bail()
+    .custom(async (username) => {
+      const isNameTaken = await User.findOne({ username: username });
+      if (isNameTaken) {
+        throw new Error('username is taken');
+      } else {
+        return true;
+      }
+    })
+    .withMessage('username already exists')
     .bail(),
   check('password')
     .trim()
@@ -26,14 +37,14 @@ exports.validateSignUp = [
     .notEmpty()
     .withMessage('re entered password must not be empty')
     .bail()
-    .custom((repassword, { req }) => {
-      if (repassword === req.body.password) {
+    .custom(async (repassword, { req }) => {
+      const doesMatch = await (repassword === req.body.password);
+      if (doesMatch) {
         return true;
       } else {
-        return false;
+        throw new Error('Password confirmation does not match password');
       }
     })
-    .withMessage('passwords must match')
     .bail(),
   (req, res, next) => {
     next();
