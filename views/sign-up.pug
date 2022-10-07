@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  form(action="" method='post' class='sign-up-form')
+  form(action="" method='post' class='sign-up-form' autocomplete='off')
     label(for="username") username
     input(type="text" class='sign-up-inputs' name='username' value=username === undefined ? '' : username)
     label(for="password") password
