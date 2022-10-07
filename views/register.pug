@@ -10,6 +10,10 @@ block content
     input(type='password' class='sign-up-inputs' name='repassword' value=repassword === undefined ? '' : repassword)
     button(type="submit") sign up
 
+
+  a(href='/login')
+    button already registered?
+
   if errors
     ul
       each error in errors

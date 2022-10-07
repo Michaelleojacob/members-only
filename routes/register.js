@@ -1,18 +1,18 @@
 const express = require('express');
-const signupRouter = express.Router();
+const registerRouter = express.Router();
 const { body, validationResult } = require('express-validator');
 const { validateSignUp } = require('../validators/sign-up.js');
 const bcrypt = require('bcrypt');
 const User = require('../models/users');
 
-signupRouter.get('/', (req, res, next) => {
-  res.render('sign-up');
+registerRouter.get('/', (req, res, next) => {
+  res.render('register');
 });
 
-signupRouter.post('/', validateSignUp, async (req, res, next) => {
+registerRouter.post('/', validateSignUp, async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.render('sign-up', {
+    return res.render('register', {
       username: req.body.username,
       password: req.body.password,
       repassword: req.body.password,
@@ -31,9 +31,9 @@ signupRouter.post('/', validateSignUp, async (req, res, next) => {
       if (err) {
         return next(err);
       }
-      res.redirect('/sign-in');
+      res.redirect('/login');
     });
   });
 });
 
-module.exports = signupRouter;
+module.exports = registerRouter;
