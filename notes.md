@@ -1,7 +1,7 @@
-## issue rendering css from pug:
+# issue rendering css from pug:
 
 **background:**
-writing the entire app by hand, no node template generator.
+no node template generator.
 
 **problem:**
 css not loading from layout.pug in /views
@@ -24,12 +24,10 @@ link(rel='stylesheet' type="text/css" href='./index.css')
 
 We call it like so.
 
-Since we are doing `app.use(./stylesheets)` we can href `./index.css`
-instead of href `../stylesheets/index.css`
-in our layout.pug
+Since we are doing `app.use(./stylesheets)` in server.js we can href `./index.css` as those files are in 'use' by our app, instead of href `../stylesheets/index.css` in our layout.pug
 
 
-## @import url() in css has to be at the top of the file
+# @import url() in css has to be at the top of the file
 
 this works:
 ```css
@@ -60,7 +58,7 @@ html, body {
 ```
 
 
-## using POST body:
+# using POST body in 2022:
 
 ```js
 // in index.js / server.js
@@ -68,7 +66,9 @@ app.use(express.urlencoded({ extended: false }));
 ```
 
 
-## validation in another file:
+# validation in another file:
+
+- middlewear that exists after the `/post` request has been made, but before the post function itself runs.
 
 `/validators/sign-up.js`
 ```js
@@ -137,7 +137,7 @@ signupRouter.post('/', validateSignUp, (req, res, next) => {
 ```
 
 
-## pug includes:
+# pug includes:
 
 `includes` 'component' the component should not have `block content` or `extends layout`
 
@@ -160,3 +160,51 @@ nav.pug
 ```html
 div(class='nav-container') Nav
 ```
+
+
+
+# all passport boilerplate and functionality.
+
+code goes AFTER APP but BEFORE VIEWS see /server.js for more info
+
+```js
+app.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(
+  new LocalStrategy((username, password, done) => {
+    User.findOne({ username: username }, (err, user) => {
+      if (err) {
+        return done(err);
+      }
+      if (!user) {
+        return done(null, false);
+      }
+      bcrypt.compare(password, user.password).then((result) => {
+        console.log(result);
+        if (result) {
+          return done(null, user);
+        }
+        return done(null, false);
+      });
+    });
+  })
+);
+passport.serializeUser(function (user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function (id, done) {
+  User.findById(id, function (err, user) {
+    done(err, user);
+  });
+});
+
+app.use(function (req, res, next) {
+  res.locals.currentUser = req.user;
+  next();
+});
+```
+
+- `new localStrategy` making use of `bcrypt.compare` requires bcrypt.compare to use `.then()` as it returns a promise.
