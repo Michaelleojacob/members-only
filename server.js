@@ -22,6 +22,7 @@ app.set('view engine', 'pug');
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'stylesheets')));
+
 app.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -33,18 +34,15 @@ passport.use(
         return done(err);
       }
       if (!user) {
-        return done(null, false, { message: 'Incorrect username' });
+        return done(null, false);
       }
-      bcrypt.compare(password, user.password, (err, res) => {
-        if (res) {
-          // passwords match! log user in
+      bcrypt.compare(password, user.password).then((result) => {
+        console.log(result);
+        if (result) {
           return done(null, user);
-        } else {
-          // passwords do not match!
-          return done(null, false, { message: 'Incorrect password' });
         }
+        return done(null, false);
       });
-      return done(null, user);
     });
   })
 );

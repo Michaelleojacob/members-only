@@ -2,6 +2,11 @@ extends layout
 
 
 block content
+
+  if(user)
+    div
+      p welcome back #{user.username}
+
   form(action="" method='post' class='sign-in-form' autocomplete='off')
     label(for="username") username
     input(type="text" name='username')

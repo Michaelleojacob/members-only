@@ -6,10 +6,13 @@ loginRouter.get('/', (req, res, next) => {
   return res.render('login');
 });
 
-loginRouter.post('/', (req, res, next) => {
-  console.log(req);
-  next();
-  res.redirect('/login');
-});
+loginRouter.post(
+  '/',
+  passport.authenticate('local', { failureRedirect: '/login' }),
+  (req, res, next) => {
+    // console.log(req.user);
+    return res.render('login', { user: req.user });
+  }
+);
 
 module.exports = loginRouter;
