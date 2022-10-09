@@ -9,7 +9,7 @@ const getHighestAuth = (user) => {
   return highestAuth;
 };
 
-homepageRouter.get('/', (req, res, next) => {
+homepageRouter.get('/', async (req, res, next) => {
   // for testing, going to keep it /login
   // if (!currentUser) return res.redirect('/register');
   if (!currentUser) return res.redirect('/login');
@@ -17,7 +17,7 @@ homepageRouter.get('/', (req, res, next) => {
   const auth = getHighestAuth(currentUser);
 
   // get all messages
-  Messages.find({})
+  await Messages.find({})
     .sort({ timeStamp: 'descending' })
     .exec((err, msgs) => {
       if (err) return next(err);

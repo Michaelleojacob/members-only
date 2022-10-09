@@ -9,11 +9,13 @@ block content
   if(msg_list)
     if(auth === 'admin')
       each msg in msg_list
+        div #{msg._id}
         div #{msg.title}
         div
           pre #{msg.text}
         div #{msg.author}
         div #{msg.timeStamp}
+        div delete
 
     if(auth === 'member')
       each msg in msg_list
