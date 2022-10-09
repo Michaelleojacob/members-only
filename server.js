@@ -60,6 +60,22 @@ app.use(function (req, res, next) {
   next();
 });
 
+const authenticationMiddleware = () => (req, res, next) => {
+  if (req.url.includes('login') && !req.user) {
+    return next();
+  }
+  if (req.url.includes('register') && !req.user) {
+    return next();
+  }
+  if (!req.user) {
+    res.redirect('/register');
+    return next();
+  }
+  next();
+};
+
+app.use(authenticationMiddleware());
+
 const homepageRouter = require('./routes/homepage.js');
 const registerRouter = require('./routes/register.js');
 const loginRouter = require('./routes/login.js');
@@ -71,11 +87,12 @@ app.use('/login', loginRouter);
 app.use('/message', messageRouter);
 
 app.get('/log-out', (req, res, next) => {
+  if (!req.user) return next();
   req.logout(function (err) {
     if (err) {
       return next(err);
     }
-    res.redirect('/');
+    return res.redirect('/');
   });
 });
 
