@@ -6,6 +6,9 @@ const bcrypt = require('bcrypt');
 const User = require('../models/users');
 
 registerRouter.get('/', (req, res, next) => {
+  if (req.user) {
+    return res.redirect('/');
+  }
   res.render('register');
 });
 

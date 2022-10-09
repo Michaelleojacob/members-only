@@ -1,0 +1,12 @@
+.devnav-container{
+  display: flex;
+  justify-content: space-between;
+}
+.devnav-container > *{
+  padding: 0.5rem;
+}
+
+.devnav-links{
+  display: flex;
+  gap: 0.5rem;
+}

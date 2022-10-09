@@ -1,0 +1,10 @@
+div(class='devnav-container')
+  div(class='devnav-user')
+    if(user)
+      p #{user.username}
+
+  div(class='devnav-links')
+    a(href='/') home
+    a(href='/register') register
+    a(href='/login') login
+    a(href='/log-out') log-out

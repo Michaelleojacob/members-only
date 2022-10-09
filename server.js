@@ -37,7 +37,6 @@ passport.use(
         return done(null, false);
       }
       bcrypt.compare(password, user.password).then((result) => {
-        console.log(result);
         if (result) {
           return done(null, user);
         }
@@ -68,6 +67,15 @@ const loginRouter = require('./routes/login.js');
 app.use('/', homepageRouter);
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
+
+app.get('/log-out', (req, res, next) => {
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect('/');
+  });
+});
 
 const server = app.listen(process.env.PORT || 3000, () => {
   console.log(server.address().address);
