@@ -13,7 +13,7 @@ loginRouter.post(
   '/',
   passport.authenticate('local', { failureRedirect: '/login' }),
   (req, res, next) => {
-    return res.render('login', { user: req.user });
+    return res.redirect('/');
   }
 );
 
