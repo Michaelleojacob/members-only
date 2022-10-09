@@ -63,10 +63,12 @@ app.use(function (req, res, next) {
 const homepageRouter = require('./routes/homepage.js');
 const registerRouter = require('./routes/register.js');
 const loginRouter = require('./routes/login.js');
+const messageRouter = require('./routes/message.js');
 
 app.use('/', homepageRouter);
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
+app.use('/message', messageRouter);
 
 app.get('/log-out', (req, res, next) => {
   req.logout(function (err) {
