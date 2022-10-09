@@ -15,6 +15,7 @@ messageRouter.post('/', validateMessage, (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.render('message-form', {
+      user: currentUser,
       title: req.body.title,
       message: req.body.message,
       errors: errors.array(),

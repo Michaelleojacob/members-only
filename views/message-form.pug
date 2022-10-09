@@ -9,3 +9,8 @@ block content
     label(for="message")
     textarea(name="message", cols="30", rows="10")
     button(type='submit') create message!
+
+  if errors
+    ul
+      each error in errors
+        li!= error.msg
