@@ -4,5 +4,29 @@ block content
 
   if(user)
     div welcome back #{user.username}
+    div auth: #{auth}
 
-    a(href='/log-out') log out
+  if(msg_list)
+    if(auth === 'admin')
+      each msg in msg_list
+        div #{msg.title}
+        div
+          pre #{msg.text}
+        div #{msg.author}
+        div #{msg.timeStamp}
+
+    if(auth === 'member')
+      each msg in msg_list
+        div #{msg.title}
+        div
+          pre #{msg.text}
+        div #{msg.author}
+        div #{msg.timeStamp}
+
+    if(auth === 'basic')
+      each msg in msg_list
+        div #{msg.title}
+        div
+          pre #{msg.text}
+        div members-only info
+        div members-only info
