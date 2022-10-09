@@ -2,33 +2,38 @@ extends layout
 
 block content
 
-  if(user)
-    div welcome back #{user.username}
-    div auth: #{auth}
 
   if(msg_list)
+
     if(auth === 'admin')
-      each msg in msg_list
-        div #{msg._id}
-        div #{msg.title}
-        div
-          pre #{msg.text}
-        div #{msg.author}
-        div #{msg.timeStamp}
-        div delete
+      div(class='card-container')
+        each msg in msg_list
+          div(class='msg-card')
+            div #{msg._id}
+            div #{msg.title}
+            div
+              pre #{msg.text}
+            div #{msg.author}
+            div #{msg.timeStamp}
+            form(method='post' action=`delete/${msg._id}` name='deleteMsg' value=msg._id)
+              button(type='submit') delete
 
     if(auth === 'member')
-      each msg in msg_list
-        div #{msg.title}
-        div
-          pre #{msg.text}
-        div #{msg.author}
-        div #{msg.timeStamp}
+      div(class='card-container')
+        each msg in msg_list
+          div(class='msg-card')
+            div #{msg.title}
+            div
+              pre #{msg.text}
+            div #{msg.author}
+            div #{msg.timeStamp}
 
     if(auth === 'basic')
-      each msg in msg_list
-        div #{msg.title}
-        div
-          pre #{msg.text}
-        div members-only info
-        div members-only info
+      div(class='card-container')
+        each msg in msg_list
+          div #{msg.title}
+          div(class='msg-card')
+            div
+              pre #{msg.text}
+            div members-only info
+            div members-only info

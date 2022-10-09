@@ -2,6 +2,7 @@
 @import url('./sign-in.css');
 @import url('./devnav.css');
 @import url('./message-form.css');
+@import url('./messages.css');
 
 * {
   box-sizing: border-box;

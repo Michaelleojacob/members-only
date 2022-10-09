@@ -68,20 +68,15 @@ const homepageRouter = require('./routes/homepage.js');
 const registerRouter = require('./routes/register.js');
 const loginRouter = require('./routes/login.js');
 const messageRouter = require('./routes/message.js');
+const deleteRouter = require('./routes/delete.js');
+const logoutRouter = require('./routes/logout.js');
 
 app.use('/', homepageRouter);
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
 app.use('/message', messageRouter);
-
-app.get('/log-out', (req, res, next) => {
-  req.logout(function (err) {
-    if (err) {
-      return next(err);
-    }
-  });
-  return res.redirect(req.headers.referer);
-});
+app.use('/delete', deleteRouter);
+app.use('/logout', logoutRouter);
 
 // server
 const server = app.listen(process.env.PORT || 3000, () => {
