@@ -1,6 +1,7 @@
 const express = require('express');
 const messageRouter = express.Router();
 const { body, validationResult } = require('express-validator');
+const { validateMessage } = require('../validators/message.js');
 const Messages = require('../models/messages.js');
 
 messageRouter.get('/', (req, res, next) => {
@@ -10,9 +11,24 @@ messageRouter.get('/', (req, res, next) => {
   res.render('message-form', { user: currentUser });
 });
 
-messageRouter.post('/', (req, res, next) => {
-  console.log(req.body);
-  res.redirect('/');
+messageRouter.post('/', validateMessage, (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.render('message-form', {
+      title: req.body.title,
+      message: req.body.message,
+      errors: errors.array(),
+    });
+  }
+  const newMessage = new Messages({
+    author: currentUser.username,
+    title: req.body.title,
+    text: req.body.message,
+    timeStamp: Date.now(),
+  }).save((err) => {
+    if (err) return next(err);
+    res.redirect('/');
+  });
 });
 
 module.exports = messageRouter;
