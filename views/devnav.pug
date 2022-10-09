@@ -1,7 +1,9 @@
 div(class='devnav-container')
-  div(class='devnav-user')
-    if(user)
-      p #{user.username}
+  if(user)
+    div(class='devnav-user') #{user.username}
+  else
+    div(class='devnav-user')
+
 
   div(class='devnav-links')
     a(href='/') home
