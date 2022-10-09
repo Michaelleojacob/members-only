@@ -70,6 +70,7 @@ const loginRouter = require('./routes/login.js');
 const messageRouter = require('./routes/message.js');
 const deleteRouter = require('./routes/delete.js');
 const logoutRouter = require('./routes/logout.js');
+const becomeMemberRouter = require('./routes/becomeMember.js');
 
 app.use('/', homepageRouter);
 app.use('/register', registerRouter);
@@ -77,6 +78,7 @@ app.use('/login', loginRouter);
 app.use('/message', messageRouter);
 app.use('/delete', deleteRouter);
 app.use('/logout', logoutRouter);
+app.use('/membership', becomeMemberRouter);
 
 // server
 const server = app.listen(process.env.PORT || 3000, () => {

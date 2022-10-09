@@ -3,3 +3,7 @@ extends layout
 block content
 
   div become a member
+  form(action="" method='post' class='membership-form')
+    label(for="secret") enter the secret code
+    input(type="text" name='secret')
+    button(type='submit') submit
