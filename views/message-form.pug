@@ -3,6 +3,9 @@ extends layout
 block content
 
   form(action="" class='message-form' method='post')
+    label(for="title") title
+    input(type="text" name='title')
+
     label(for="message")
     textarea(name="message", cols="30", rows="10")
     button(type='submit') create message!
