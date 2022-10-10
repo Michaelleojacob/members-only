@@ -6,10 +6,8 @@ const bcrypt = require('bcrypt');
 const User = require('../models/users');
 
 registerRouter.get('/', (req, res, next) => {
-  if (req.user) {
-    return res.redirect('/');
-  }
-  res.render('register');
+  if (currentUser) return res.redirect('/');
+  return res.render('register');
 });
 
 registerRouter.post('/', validateSignUp, async (req, res, next) => {
@@ -34,7 +32,7 @@ registerRouter.post('/', validateSignUp, async (req, res, next) => {
       if (err) {
         return next(err);
       }
-      res.redirect('/login');
+      return res.redirect('/login');
     });
   });
 });
