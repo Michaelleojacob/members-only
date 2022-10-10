@@ -53,7 +53,7 @@ passport.deserializeUser(function (id, done) {
   });
 });
 
-// global for currentUser
+// app wide global variables.
 app.use(function (req, res, next) {
   global.currentUser = req.user;
   next();
@@ -75,14 +75,12 @@ app.use('/login', loginRouter);
 app.use('/message', messageRouter);
 
 app.get('/log-out', (req, res, next) => {
-  if (!req.user) return next();
   req.logout(function (err) {
     if (err) {
       return next(err);
     }
-    return res.redirect('/');
   });
-  res.redirect('/');
+  return res.redirect(req.headers.referer);
 });
 
 // server
