@@ -10,7 +10,7 @@ loginRouter.get('/', (req, res, next) => {
 loginRouter.post(
   '/',
   passport.authenticate('local', {
-    successRedirect: '/',
+    successRedirect: '/membership',
     failWithError: true,
   }),
   (err, req, res, next) => {

@@ -7,3 +7,8 @@ block content
     label(for="secret") enter the secret code
     input(type="text" name='secret')
     button(type='submit') submit
+
+  if errors
+    ul
+      each error in errors
+        li!= error.msg
