@@ -9,38 +9,37 @@ const mongoose = require('mongoose');
 const { config } = require('dotenv');
 config();
 
+// connect to db
 mongoose.connect(process.env.DB_URI, (err) => {
   if (err) {
     console.log(err);
   }
 });
 
+// app
 const app = express();
-
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'stylesheets')));
 
+// passport 'boilerplate'
 app.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
-
 passport.use(
   new LocalStrategy((username, password, done) => {
     User.findOne({ username: username }, (err, user) => {
       if (err) {
-        return done(err);
+        return done(err, { message: err });
       }
       if (!user) {
-        return done(null, false);
+        return done(null, false, { message: 'no user found' });
       }
       bcrypt.compare(password, user.password).then((result) => {
         if (result) {
           return done(null, user);
         }
-        return done(null, false);
+        return done(null, false, { message: 'incorrect user or password' });
       });
     });
   })
@@ -48,34 +47,23 @@ passport.use(
 passport.serializeUser(function (user, done) {
   done(null, user.id);
 });
-
 passport.deserializeUser(function (id, done) {
   User.findById(id, function (err, user) {
     done(err, user);
   });
 });
 
+// global for currentUser
 app.use(function (req, res, next) {
-  res.locals.currentUser = req.user;
+  global.currentUser = req.user;
   next();
 });
 
-const authenticationMiddleware = () => (req, res, next) => {
-  if (req.url.includes('login') && !req.user) {
-    return next();
-  }
-  if (req.url.includes('register') && !req.user) {
-    return next();
-  }
-  if (!req.user) {
-    res.redirect('/register');
-    return next();
-  }
-  next();
-};
+// view 'boilerplate'
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
 
-app.use(authenticationMiddleware());
-
+// routes
 const homepageRouter = require('./routes/homepage.js');
 const registerRouter = require('./routes/register.js');
 const loginRouter = require('./routes/login.js');
@@ -94,8 +82,10 @@ app.get('/log-out', (req, res, next) => {
     }
     return res.redirect('/');
   });
+  res.redirect('/');
 });
 
+// server
 const server = app.listen(process.env.PORT || 3000, () => {
   console.log(server.address().address);
   console.log(`server started at port: ${server.address().port}`);

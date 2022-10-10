@@ -3,9 +3,6 @@ extends layout
 
 block content
 
-  if(user)
-    div
-      p welcome back #{user.username}
 
   form(action="" method='post' class='sign-in-form' autocomplete='off')
     label(for="username") username
@@ -13,6 +10,9 @@ block content
     label(for="password") password
     input(type="password" name='password')
     button(type='submit') log in
+
+  if(error)
+    div #{error}
 
   a(href='/register')
     button not registered?

@@ -207,3 +207,23 @@ app.use(function (req, res, next) {
 ```
 
 - `new localStrategy` making use of `bcrypt.compare` requires bcrypt.compare to use `.then()` as it returns a promise.
+
+
+# Middleware to check logged in status
+
+best to place this just before routes in `/server.js`
+
+
+```js
+const authenticationMiddleware = () => (req, res, next) => {
+  if (!req.user) {
+    if (!req.url.test(/(login|register)?/g)) {
+      res.redirect('/register');
+    }
+    return next();
+  }
+  next();
+}
+
+app.use(authenticationMiddleware());
+```
